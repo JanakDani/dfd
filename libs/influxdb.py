@@ -33,8 +33,8 @@ class InfluxDB(object):
         return week_start_epoch, week_end_epoch
 
     def write(self, bucket, record):
-        resp = self.write_api.write(bucket, self.db_org, record,
-                                    write_precision=influxdb_client.domain.write_precision.WritePrecision.S)
+        self.write_api.write(bucket, self.db_org, record,
+                             write_precision=influxdb_client.domain.write_precision.WritePrecision.S)
 
         """
         print(dir(resp))

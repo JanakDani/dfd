@@ -12,9 +12,6 @@ class Indices(object):
         self.start_epoch, self.end_epoch = influxdb.InfluxDB.time()
         self.influxdb_data = None
 
-    def run(self):
-        self.write()
-
     def data_for_influxdb(self):
         list_data = []
         spx = SPX()
@@ -33,41 +30,13 @@ class Indices(object):
                     "sector": sector,
                     "subIndustry": sub_industry
                 },
-                "time": self.end_epoch
+                "time": self.start_epoch
             }
             list_data.append(dict_data)
         return list_data
 
     def write(self):
-        """
-        list_data = []
-        start_epoch, end_epoch = influxdb.InfluxDB.time()
-        logger.debug("invoking S&P 500 instance")
-        spx = SPX()
-        for cik, symbol, company, weight, sector, sub_industry in spx.stocks_details():
-            dict_data = {
-                "measurement": "spx",
-                "tags": {
-                    "type": "index",
-                    "symbol": symbol,
-                    "resolution": "weekly"
-                },
-                "fields": {
-                    "cik": cik,
-                    "company": company,
-                    "weight": weight,
-                    "sector": sector,
-                    "subIndustry": sub_industry
-                },
-                "time": end_epoch
-            }
-            list_data.append(dict_data)
-        """
-            # print(dict_data)
-            # influxdb.write("indices", dict_data)
+        self.influxdb_client.write(self.influxdb_bucket, self.data_for_influxdb())
 
-        # json_data = json.dumps(list_data)
-        self.influxdb_data = self.data_for_influxdb()
-        #json_data = self.influxdb_data
-        print(self.influxdb_data)
-        self.influxdb_client.write(self.influxdb_bucket, self.influxdb_data)
+    def run(self):
+        self.write()

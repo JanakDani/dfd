@@ -26,21 +26,6 @@ class SPX(object):
         return dict_slickcharts
 
     def data_for_indices(self):
-        """
-        table_wiki = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]
-        # df_wiki_orig = table_wiki[0]
-        df_wiki = table_wiki[['CIK', 'Symbol', 'Security', 'GICS Sector', 'GICS Sub-Industry']]
-        df_wiki = df_wiki.reset_index()
-
-        table_slickcharts = pd.read_html(requests.get('https://www.slickcharts.com/sp500',
-                                                      headers={'User-agent': 'Mozilla/5.0'}).text)[0]
-        df_slickcharts = table_slickcharts[['Symbol', 'Weight']]
-        df_slickcharts = df_slickcharts.reset_index()
-        print(df_slickcharts)
-        print(type(df_slickcharts))
-        dict_slickcharts = df_slickcharts.set_index("Symbol").to_dict(orient='index')
-        print(dict_slickcharts['AAPL']['Weight'])
-        """
         self.data_wiki = self.data_from_wiki()
         self.data_slickcharts = self.data_from_slickcharts()
 
